@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>订餐</title>
+	<link rel="stylesheet"  href="lib/jquery.mobile-1.2.0/jquery.mobile-1.2.0.min.css" />
+
+    <script src="lib/jquery.js"></script>
+	<script src="lib/jquery.mobile-1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+    <script src='data/foods.json' type='text/javascript'></script>
+    <script src='data/restaurants.json' type='text/javascript'></script>
+    <script src='data/users.json' type='text/javascript'></script>
+
+    <script src="js/application.js"></script>
+	
+	
+</head>
+<body>
+	<div data-role="header">
+		<button onclick="location='./index.html'">Back</button>
+		<h1>订餐</h1>
+		
+	</div>
+	
+	<div data-role="content">
+		<p>人：</p>
+		<input type="text" name="user" id="user" readOnly="true" />
+		<button onclick="location='./selectUser.html'" >选人</button>
+		
+		<p>餐厅：</p>
+		<input type="text" name="restaurant" id="restaurant" readOnly="true" />
+		<button onclick="location='./selectRestaurant.html'" >选餐厅</button>
+		
+		<p>套餐：</p>
+		<input type="text" name="food" id="food" readOnly="true" />
+		<button onclick="location='./selectFood.html'" >选套餐</button>
+		<br />
+		<button onclick="submitOrder()" >确认</button>
+	</div>
+
+	<script type='text/javascript'>
+		$(document).ready(initOrder());
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>订餐</title>
+	<link rel="stylesheet"  href="lib/jquery.mobile-1.2.0/jquery.mobile-1.2.0.min.css" />
+
+    <script src="lib/jquery.js"></script>
+	<script src="lib/jquery.mobile-1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+    <script src='data/foods.json' type='text/javascript'></script>
+    <script src='data/restaurants.json' type='text/javascript'></script>
+    <script src='data/users.json' type='text/javascript'></script>
+
+    <script src="js/application.js"></script>
+	
+	
+	
+</head>
+<body>
+	<div data-role="header">
+		<button onclick="location='./order.html'">Back</button>
+		<h1>选餐厅</h1>
+	</div>
+	
+	<div data-role="content" id="res">
+		<div >
+		<ul id="nav" data-role="listview">
+			<script type='text/javascript'>
+	  			 showRestaurant();		
+			</script>
+		</ul>
+		</div>
+	</div>
+	
+	
+</body>
+</body>
+</html>
