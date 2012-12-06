@@ -121,83 +121,12 @@ function submitOrder(){
  * 展示订单数据
  */
 function showOrdered(){
-	var str = "";
-	var order = window.localStorage.order;
-	var orderRow = order.split(";");
-	var price = 0;
-	var arr = new Array();
-	var flag = 0;
-	
-	for(var k = 0;k<orderRow.length-1;k++)
-	{
-		flag = 0;
-		var OrderInfo = orderRow[k].split(",");
-		for(var m = 0;m<arr.length;m++)
-		{
-			if(arr[m] == OrderInfo[0])
-			{
-				flag = 1;
-				break;
-			}
-		}
-		if(flag == 0)
-		{
-			arr[arr.length] = OrderInfo[0];
-		}
-	}
-	str += "<li data-role=\"list-divider\" role=\"heading\" class=\"ui-li ui-li-divider ui-bar-b\">"+arr.length+"人已定</li>";
-	for(var i = 0;i<orderRow.length-1;i++)
-	{
-		var OrderInfo = orderRow[i].split(",");
-		var user = OrderInfo[0];
-		var restaurant = OrderInfo[1];
-		var food = OrderInfo[2];
-		var pre = OrderInfo[3];
-		
-		str += "<li>";
-		
-		if(pre>12)
-		{
-			var over = pre - 12;
-			str += "<p class=\"ui-li-aside\"><font color='red'><font>"+"￥"+pre+"(超过：￥"+over+")"+"</font></font></p>";
-		}
-		else
-		{
-			str += "<p class=\"ui-li-aside\"><font><font>"+"￥"+pre+"</font></font></p>";
-		}
-		str += "<h3 class=\"ui-li-heading\"><font><font>"+user+"</font></font></h3>";
-		str += "<p class=\"ui-li-desc\"><font><font>"+restaurant+" "+food+"</font></font></p>";
-		str += "</li>";
-		price = parseFloat(pre) + parseFloat(price);
-	}
-	
-	window.localStorage.sumPrice = price;
-	window.localStorage.OrderedNum = arr.length;
-
-	var head = "";
-	var lstr = "";
-	var num = 0;
-	flag = 0;
-	$.each(users,function(n,value) { 
-		for(var i =0;i<arr.length;i++)
-		{
-			flag = 0;
-			if(value.name == arr[i])
-			{
-				flag = 1;
-				break;
-			}
-		}
-		if(flag == 0)
-		{
-			num = num+1;
-			lstr += "<li>"+value.name+"</li>";
-		}
-	});
-	head += "<li data-role=\"list-divider\" role=\"heading\" class=\"ui-li ui-li-divider ui-bar-b\">"+num+"人未定</li>";
+	var str = "";	
+	str += "<li data-role=\"list-divider\" role=\"heading\" class=\"ui-li ui-li-divider ui-bar-b\">"+countSelected().length+"人已定</li>";
+	str += orderList();
+	var lstr = countUnSelected(countSelected());
+	var head = "<li data-role=\"list-divider\" role=\"heading\" class=\"ui-li ui-li-divider ui-bar-b\">"+window.localStorage.UnNum+"人未定</li>";
 	lstr = head + lstr;
-	
-	window.localStorage.UnOrderedNum = num;
 	str = str + lstr; 
 	$("#nav").html(str);
 }
@@ -214,6 +143,117 @@ function clearSystem()
  * 显示订单页脚部分统计信息
  */
 function countOrder(){
-	var str = "<h4>"+window.localStorage.OrderedNum+"人已定，"+window.localStorage.UnOrderedNum+"人未定，总计："+window.localStorage.sumPrice+"元</h4>";
+	var str = "<h4>"+countSelected().length+"人已定，"+ window.localStorage.UnNum +"人未定，总计："+countPrice()+"元</h4>";
 	$("#footer").html(str);
 }
+/*
+ * 生成已选人员数组
+ */
+function countSelected(){
+	var arr = new Array();
+	if(window.localStorage.order != "" && window.localStorage.order)
+	{
+		var orderRow = window.localStorage.order.split(";");
+		for(var k = 0;k<orderRow.length-1;k++)
+		{
+			flag = 0;
+			var OrderInfo = orderRow[k].split(",");
+			for(var m = 0;m<arr.length;m++)
+			{
+				if(arr[m] == OrderInfo[0]){
+					flag = 1;
+					break;
+				}
+			}
+			if(flag == 0){
+				arr[arr.length] = OrderInfo[0];
+			}
+		}
+	}
+	return arr;
+}
+
+/*
+ * 生成未选人员数组
+ */
+function countUnSelected(){
+	var lstr = "";
+	var num = 0;
+	var flag =0;
+	var arr=countSelected();
+	$.each(users,function(n,value) { 
+		for(var i =0;i<arr.length;i++)
+		{
+			flag = 0;
+			if(value.name == arr[i])
+			{
+				flag = 1;
+				break;
+			}
+		}
+		if(flag == 0){
+			num = num+1;
+			lstr += "<li>"+value.name+"</li>";
+		}
+	});
+	window.localStorage.UnNum = num;
+	return lstr;
+}
+
+/*
+ * 生成订单列表
+ */
+function orderList(){
+	if(window.localStorage.order != "" && window.localStorage.order)
+	{
+		var orderRow = window.localStorage.order.split(";");
+		var str="";
+		for(var i = 0;i<orderRow.length-1;i++)
+		{
+			var OrderInfo = orderRow[i].split(",");
+			var user = OrderInfo[0];
+			var restaurant = OrderInfo[1];
+			var food = OrderInfo[2];
+			var pre = OrderInfo[3];
+			
+			str += "<li>";
+			
+			if(pre>12)
+			{
+				var over = pre - 12;
+				str += "<p class=\"ui-li-aside\"><font color='red'><font>"+"￥"+pre+"(超过：￥"+over+")"+"</font></font></p>";
+			}
+			else
+			{
+				str += "<p class=\"ui-li-aside\"><font><font>"+"￥"+pre+"</font></font></p>";
+			}
+			str += "<h3 class=\"ui-li-heading\"><font><font>"+user+"</font></font></h3>";
+			str += "<p class=\"ui-li-desc\"><font><font>"+restaurant+" "+food+"</font></font></p>";
+			str += "</li>";
+		}
+		return str;
+	}
+	else
+	{
+		return "";
+	}
+}
+
+/*
+ * 计算总价
+*/
+function countPrice(){
+	if(window.localStorage.order == "" || !window.localStorage.order)
+	{
+		return 0;
+	}
+	var price=0;
+	var orderRow = window.localStorage.order.split(";");
+	for(var i = 0;i<orderRow.length-1;i++)
+	{
+		var OrderInfo = orderRow[i].split(",");
+		var pre = OrderInfo[3];
+		price = parseFloat(pre) + parseFloat(price);
+	}
+	return price;
+} 
