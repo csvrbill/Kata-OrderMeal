@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
+<widget xmlns     = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "com.phonegap.hello-world"
+        version   = "1.0.0">
+
+    <name>订餐测试</name>
+
+    <description>
+         T订餐PhoneGap订餐平台
+    </description>
+
+    <author href="http://phonegap.com" email="support@phonegap.com">
+         CFwww Dream Technology
+    </author>
+
+
+    <preference name="orientation" value="landscape" />
+    <preference name="phonegap-version" value="3.5.0" />
+
+	<icon src="ico.png" width="114" height="114"/>
+	<gap:splash src="l.png" gap:platform="ios" width="1024" height="768" />
+    <icon src="ico.png" width="57" height="57"/>
+    <icon src="ico.png" width="72" height="72"/>
+    <icon src="ico.png" width="114" height="114"/> 
+<preference name="show-splash-screen-spinner" value="false" />
+<preference name="splash-screen-duration" value="100" />
+</widget>
